@@ -101,9 +101,9 @@ module "self_signed_cert" {
   # Cloud Posse recommends pinning every module to a specific version
   # version = "x.x.x"
 
-  namespace         = "eg"
-  stage             = "dev"
-  name              = "self-signed-cert"
+  namespace = "eg"
+  stage     = "dev"
+  name      = "self-signed-cert"
 
   subject = {
     common_name         = "example"
