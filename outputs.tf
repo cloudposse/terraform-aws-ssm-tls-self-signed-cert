@@ -1,14 +1,14 @@
-output "id" {
-  description = "ID of the created example"
-  value       = module.this.enabled ? module.this.id : null
+output "certificate_key_path" {
+  description = "Secrets store path containing the certificate private key file."
+  value       = local.secrets_store_enabled ? coalesce(join("", aws_ssm_parameter.private_key.*.name), join("", aws_secretsmanager_secret.private_key.*.name)) : null
 }
 
-output "example" {
-  description = "Example output"
-  value       = module.this.enabled ? local.example : null
+output "certificate_pem_path" {
+  description = "Secrets store path containing the certificate PEM file."
+  value       = local.secrets_store_enabled ? coalesce(join("", aws_ssm_parameter.pem.*.name), join("", aws_secretsmanager_secret.pem.*.name)) : null
 }
 
-output "random" {
-  description = "Stable random number for this example"
-  value       = module.this.enabled ? join("", random_integer.example[*].result) : null
+output "certificate_pem" {
+  description = "Contents of the certificate PEM."
+  value       = join("", tls_self_signed_cert.default.*.cert_pem)
 }

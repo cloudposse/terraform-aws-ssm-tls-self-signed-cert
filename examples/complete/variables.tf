@@ -1,4 +1,10 @@
-variable "example" {
+variable "region" {
+  description = "The region to deploy AWS resources to."
   type        = string
-  description = "The value which will be passed to the example module"
+}
+
+variable "is_ca" {
+  description = "Whether or not this certificate is a CA."
+  type        = bool
+  default     = false
 }
