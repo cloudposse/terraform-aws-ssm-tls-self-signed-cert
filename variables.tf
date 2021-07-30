@@ -28,8 +28,8 @@ variable "private_key_contents" {
 
   Defaults to `null`, which means a private key will be created.
   EOT
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "private_key_algorithm" {
