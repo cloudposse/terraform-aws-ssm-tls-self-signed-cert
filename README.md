@@ -117,9 +117,9 @@ module "self_signed_cert" {
   }
 
   allowed_uses = [
-    "crl_signing",
+    "key_encipherment",
     "digital_signature",
-    "digital_signature"
+    "server_auth"
   ]
 
   subject_alt_names = {
@@ -136,7 +136,7 @@ module "self_signed_cert" {
 ## Examples
 
 Here is an example of using this module:
-- [`examples/complete`](https://github.com/cloudposse/terraform-aws-self-signed-cert/examples/complete) - complete example of using this module.
+- [`examples/complete`](examples/complete) - complete example of using this module.
 
 
 
