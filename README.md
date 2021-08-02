@@ -99,7 +99,7 @@ For a complete example, see [examples/complete](examples/complete).
 
 ```hcl
 module "self_signed_cert" {
-  source = "cloudposse/self-signed-cert/aws"
+  source = "cloudposse/ssm-tls-self-signed-cert/aws"
   # Cloud Posse recommends pinning every module to a specific version
   # version = "x.x.x"
 
