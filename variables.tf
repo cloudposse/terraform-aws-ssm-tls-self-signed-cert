@@ -101,8 +101,11 @@ variable "subject" {
   description = <<-EOT
   The subject configuration for the certificate.
   This should be a map that is compatible with [tls_cert_request.subject](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/resources/cert_request#subject).
+
+  If `common_name` is omitted, it will be set as `module.this.id`.
   EOT
   type        = any
+  default     = {}
 }
 
 variable "subject_alt_names" {

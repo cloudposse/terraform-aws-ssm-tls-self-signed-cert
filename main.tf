@@ -28,7 +28,7 @@ resource "tls_self_signed_cert" "default" {
   allowed_uses = var.allowed_uses
 
   subject {
-    common_name         = lookup(var.subject, "common_name", null)
+    common_name         = lookup(var.subject, "common_name", module.this.id)
     organization        = lookup(var.subject, "organization", null)
     organizational_unit = lookup(var.subject, "organizational_unit", null)
     street_address      = lookup(var.subject, "street_address", null)
