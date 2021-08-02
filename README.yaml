@@ -89,9 +89,9 @@ usage: |-
     }
 
     allowed_uses = [
-      "crl_signing",
+      "key_encipherment",
       "digital_signature",
-      "digital_signature"
+      "server_auth"
     ]
 
     subject_alt_names = {
@@ -105,7 +105,7 @@ usage: |-
 # Example usage
 examples: |-
   Here is an example of using this module:
-  - [`examples/complete`](https://github.com/cloudposse/terraform-aws-self-signed-cert/examples/complete) - complete example of using this module.
+  - [`examples/complete`](examples/complete) - complete example of using this module.
 
 # How to get started quickly
 #quickstart: |-

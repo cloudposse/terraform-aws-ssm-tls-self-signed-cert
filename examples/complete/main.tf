@@ -18,8 +18,7 @@ module "self_signed_cert" {
 
   allowed_uses = var.is_ca ? [
     "crl_signing",
-    "digital_signature",
-    "digital_signature"
+    "cert_signing",
     ] : [
     "key_encipherment",
     "digital_signature",
