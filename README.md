@@ -1,6 +1,8 @@
 
 <!-- markdownlint-disable -->
-# terraform-aws-ssm-tls-self-signed-cert [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-ssm-tls-self-signed-cert.svg)](https://github.com/cloudposse/terraform-aws-ssm-tls-self-signed-cert/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
+# terraform-aws-ssm-tls-self-signed-cert
+
+ [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-ssm-tls-self-signed-cert.svg)](https://github.com/cloudposse/terraform-aws-ssm-tls-self-signed-cert/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
 <!-- markdownlint-restore -->
 
 [![README Header][readme_header_img]][readme_header_link]
@@ -28,7 +30,7 @@
 
 -->
 
-This module creates a self-signed certificate and writes it alongside with its key to SSM Parameter Store or AWS Secrets Manager.
+This module creates a self-signed certificate and writes it alongside with its key to SSM Parameter Store (or alternatively AWS Secrets Manager).
 
 ---
 
