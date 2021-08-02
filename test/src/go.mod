@@ -1,4 +1,4 @@
-module github.com/cloudposse/terraform-aws-self-signed-cert
+module github.com/cloudposse/terraform-aws-ssm-tls-self-signed-cert
 
 go 1.13
 

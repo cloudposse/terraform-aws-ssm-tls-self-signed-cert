@@ -5,7 +5,7 @@
 #
 
 # Name of this project
-name: terraform-aws-self-signed-cert
+name: terraform-aws-ssm-tls-self-signed-cert
 
 # Logo for this project
 #logo: docs/logo.png
@@ -20,13 +20,13 @@ copyrights:
     year: "2020"
 
 # Canonical GitHub repo
-github_repo: cloudposse/terraform-aws-self-signed-cert
+github_repo: cloudposse/terraform-aws-ssm-tls-self-signed-cert
 
 # Badges to display
 badges:
   - name: "Latest Release"
-    image: "https://img.shields.io/github/release/cloudposse/terraform-aws-self-signed-cert.svg"
-    url: "https://github.com/cloudposse/terraform-aws-self-signed-cert/releases/latest"
+    image: "https://img.shields.io/github/release/cloudposse/terraform-aws-ssm-tls-self-signed-cert.svg"
+    url: "https://github.com/cloudposse/terraform-aws-ssm-tls-self-signed-cert/releases/latest"
   - name: "Slack Community"
     image: "https://slack.cloudposse.com/badge.svg"
     url: "https://slack.cloudposse.com"
@@ -57,7 +57,7 @@ references:
 
 # Short description of this project
 description: |-
-  This module creates a self-signed certificate and writes it alongside with its key to SSM Parameter Store or AWS Secrets Manager.
+  This module creates a self-signed certificate and writes it alongside with its key to SSM Parameter Store (or alternatively AWS Secrets Manager).
 
 # Introduction to the project
 #introduction: |-
