@@ -3,6 +3,12 @@ variable "region" {
   type        = string
 }
 
+variable "create_cmk" {
+  description = "Whether or not to create a CMK and use it for the secret."
+  type        = bool
+  default     = false
+}
+
 variable "secret_path_format" {
   description = "The custom secret path to use."
   type        = string
