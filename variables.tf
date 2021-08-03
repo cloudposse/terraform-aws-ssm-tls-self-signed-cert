@@ -167,6 +167,17 @@ variable "secrets_store_enabled" {
   default     = true
 }
 
+variable "secrets_store_kms_key_id" {
+  description = <<-EOT
+  The KMD Key ID (ARN or ID) to use when encrypting either the AWS SSM Parameters or AWS Secrets Manager Secrets relating to the certificate.
+
+  If not specified, the Amazon-managed Key `alias/aws/ssm` will be used if `var.secrets_store_type` is `SSM`,
+  and `alias/aws/secretsmanager` will be used if `var.secrets_store_type` is `ASM`.
+  EOT
+  type        = string
+  default     = null
+}
+
 variable "secrets_store_type" {
   description = <<-EOT
   The secret store type to use when writing secrets related to the self-signed certificate.

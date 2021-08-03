@@ -3,6 +3,7 @@ resource "aws_secretsmanager_secret" "pem" {
 
   name                    = format(var.secret_path_format, module.this.name, "pem")
   recovery_window_in_days = var.asm_recovery_window_in_days
+  kms_key_id              = local.secrets_store_kms_key_id
 
   tags = module.this.tags
 }
@@ -19,6 +20,7 @@ resource "aws_secretsmanager_secret" "private_key" {
 
   name                    = format(var.secret_path_format, module.this.name, "key")
   recovery_window_in_days = var.asm_recovery_window_in_days
+  kms_key_id              = local.secrets_store_kms_key_id
 
   tags = module.this.tags
 }
