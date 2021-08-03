@@ -16,7 +16,7 @@ module "self_signed_cert" {
     early_renewal_hours = 24
   }
 
-  allowed_uses = var.is_ca ? [
+  allowed_uses = var.basic_constraints.ca ? [
     "crl_signing",
     "cert_signing",
     ] : [
@@ -25,7 +25,7 @@ module "self_signed_cert" {
     "server_auth"
   ]
 
-  subject_alt_names = var.is_ca ? {
+  subject_alt_names = var.basic_constraints.ca ? {
     ip_addresses = null
     dns_names    = null
     uris         = null
@@ -35,9 +35,7 @@ module "self_signed_cert" {
     uris         = ["https://example.com"]
   }
 
-  basic_constraints = {
-    ca = var.is_ca
-  }
+  basic_constraints = var.basic_constraints
 
   skid_enabled = true
 

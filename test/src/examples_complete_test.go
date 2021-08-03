@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestExamplesComplete(t *testing.T) {
@@ -75,6 +76,12 @@ func testExamplesCompleteNonCA(t *testing.T) {
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.Apply(t, terraformOptions)
+
+	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
+	assert.Equal(t, certificatePEMPath, "/self-signed-cert.pem")
+
+	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
+	assert.Equal(t, certificateKeyPath, "/self-signed-cert.key")
 }
 
 func testExamplesCompleteCA(t *testing.T) {
@@ -103,4 +110,10 @@ func testExamplesCompleteCA(t *testing.T) {
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.Apply(t, terraformOptions)
+
+	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
+	assert.Equal(t, certificatePEMPath, "/self-signed-cert-ca.pem")
+
+	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
+	assert.Equal(t, certificateKeyPath, "/self-signed-cert-ca.key")
 }

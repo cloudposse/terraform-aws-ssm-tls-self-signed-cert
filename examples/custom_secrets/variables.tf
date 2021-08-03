@@ -15,6 +15,7 @@ variable "secrets_store_enabled" {
 }
 
 variable "secrets_store_type" {
-  description = "The secrets store type to use."
+  description = "The secrets store type to use, `SSM` or `ASM`."
   type        = string
+  default     = "SSM"
 }

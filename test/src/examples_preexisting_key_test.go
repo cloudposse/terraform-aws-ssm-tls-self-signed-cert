@@ -12,7 +12,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/ssm"
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestExamplesPreexistingKey(t *testing.T) {
@@ -71,6 +75,13 @@ func testExamplesPreexistingKeyRSA(t *testing.T) {
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.Apply(t, terraformOptions)
+
+	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
+	certificateKey, err := getSSMParameterValue("us-east-1", certificateKeyPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, certificateKey, string(privateKeyPEM))
 }
 
 func testExamplesPreexistingKeyECDSA(t *testing.T) {
@@ -117,4 +128,32 @@ func testExamplesPreexistingKeyECDSA(t *testing.T) {
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.Apply(t, terraformOptions)
+
+	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
+	certificateKey, err := getSSMParameterValue("us-east-1", certificateKeyPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, certificateKey, string(privateKeyPEM))
+}
+
+func getSSMParameterValue(awsRegion string, parameterName string) (string, error) {
+	awsSession, err := session.NewSessionWithOptions(session.Options{
+		Config: aws.Config{Region: aws.String(awsRegion)},
+	})
+	if err != nil {
+		return "", err
+	}
+
+	ssmSession := ssm.New(awsSession, aws.NewConfig().WithRegion(awsRegion))
+
+	var withDecryption = true
+	param, err := ssmSession.GetParameter(&ssm.GetParameterInput{
+		Name:           &parameterName,
+		WithDecryption: &withDecryption,
+	})
+	if err != nil {
+		return "", err
+	}
+	return *param.Parameter.Value, nil
 }

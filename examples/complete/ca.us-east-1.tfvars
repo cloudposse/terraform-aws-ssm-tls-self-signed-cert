@@ -8,5 +8,7 @@ stage = "test"
 
 name = "self-signed-cert-ca"
 
-is_ca = true
+basic_constraints = {
+  ca = true
+}
 

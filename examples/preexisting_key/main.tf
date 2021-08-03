@@ -20,5 +20,4 @@ module "self_signed_cert" {
   private_key_algorithm = var.private_key_algorithm
 
   context = module.this.context
-
 }

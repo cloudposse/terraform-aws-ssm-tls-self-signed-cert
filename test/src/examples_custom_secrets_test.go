@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
-  "github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestExamplesCustomSecrets(t *testing.T) {
@@ -81,11 +81,11 @@ func testExamplesCustomSecretsSSM(t *testing.T) {
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.Apply(t, terraformOptions)
 
-  certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
-  assert.Equal(t, certificatePEMPath, "/test-ssm/self-signed-cert-ssm.pem")
+	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
+	assert.Equal(t, certificatePEMPath, "/test-ssm/self-signed-cert-ssm.pem")
 
-  certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
-  assert.Equal(t, certificateKeyPath, "/test-ssm/self-signed-cert-ssm.key")
+	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
+	assert.Equal(t, certificateKeyPath, "/test-ssm/self-signed-cert-ssm.key")
 }
 
 func testExamplesCustomSecretsASM(t *testing.T) {
@@ -115,9 +115,9 @@ func testExamplesCustomSecretsASM(t *testing.T) {
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.Apply(t, terraformOptions)
 
-  certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
-  assert.Equal(t, certificatePEMPath, "/test-asm/self-signed-cert-asm.pem")
+	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
+	assert.Equal(t, certificatePEMPath, "/test-asm/self-signed-cert-asm.pem")
 
-  certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
-  assert.Equal(t, certificateKeyPath, "/test-asm/self-signed-cert-asm.key")
+	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
+	assert.Equal(t, certificateKeyPath, "/test-asm/self-signed-cert-asm.key")
 }
