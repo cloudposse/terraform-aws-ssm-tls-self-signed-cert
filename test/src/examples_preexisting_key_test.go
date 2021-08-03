@@ -65,7 +65,7 @@ func testExamplesPreexistingKeyRSA(t *testing.T) {
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-1.tfvars"},
 		Vars: map[string]interface{}{
-			"name":                  "self-signed-cert-preexisting-rsa",
+			"name":                  "self-signed-cert-existing-rsa",
 			"attributes":            attributes,
 			"private_key_contents":  string(privateKeyPEM),
 			"private_key_algorithm": "RSA",
@@ -110,12 +110,12 @@ func testExamplesPreexistingKeyRSABase64(t *testing.T) {
 		TerraformDir: "../../examples/preexisting_key",
 		Upgrade:      true,
 		EnvVars: map[string]string{
-			"TF_CLI_ARGS": "-state=terraform-rsa-test.tfstate",
+			"TF_CLI_ARGS": "-state=terraform-rsa-base64-test.tfstate",
 		},
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-1.tfvars"},
 		Vars: map[string]interface{}{
-			"name":                         "self-signed-cert-preexisting-rsa-base64",
+			"name":                         "self-signed-cert-existing-rsa-base64",
 			"attributes":                   attributes,
 			"private_key_contents":         string(privateKeyPEM),
 			"private_key_algorithm":        "RSA",
@@ -169,7 +169,7 @@ func testExamplesPreexistingKeyECDSA(t *testing.T) {
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-1.tfvars"},
 		Vars: map[string]interface{}{
-			"name":                  "self-signed-cert-preexisting-ecdsa",
+			"name":                  "self-signed-cert-existing-ecdsa",
 			"attributes":            attributes,
 			"private_key_contents":  string(privateKeyPEM),
 			"private_key_algorithm": "ECDSA",
