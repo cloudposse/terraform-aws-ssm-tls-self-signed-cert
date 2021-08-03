@@ -10,74 +10,110 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// Test the Terraform module in examples/complete using Terratest.
 func TestExamplesComplete(t *testing.T) {
-	t.Parallel()
-
-	rand.Seed(time.Now().UnixNano())
-	randID := strconv.Itoa(rand.Intn(100000))
-	attributes := []string{randID}
-
-	exampleInput := "Hello, world!"
-
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
 		TerraformDir: "../../examples/complete",
 		Upgrade:      true,
 		// Variables to pass to our Terraform code using -var-file options
-		VarFiles: []string{"fixtures.us-east-2.tfvars"},
-		// We always include a random attribute so that parallel tests
-		// and AWS resources do not interfere with each other
+		VarFiles: []string{"fixtures.us-east-1.tfvars"},
+	}
+
+	terraform.Init(t, terraformOptions)
+	// Run tests in parallel
+	t.Run("Disabled", testExamplesCompleteDisabled)
+	t.Run("NonCA", testExamplesCompleteNonCA)
+	t.Run("CA", testExamplesCompleteCA)
+}
+
+func testExamplesCompleteDisabled(t *testing.T) {
+	t.Parallel()
+
+	terraformOptions := &terraform.Options{
+		// The path to where our Terraform code is located
+		TerraformDir: "../../examples/complete",
+		Upgrade:      true,
+		EnvVars: map[string]string{
+			"TF_CLI_ARGS": "-state=terraform-disabled-test.tfstate",
+		},
+		// Variables to pass to our Terraform code using -var-file options
+		VarFiles: []string{"fixtures.us-east-1.tfvars"},
 		Vars: map[string]interface{}{
-			"attributes": attributes,
-			"example":    exampleInput,
+			"enabled": false,
 		},
 	}
+
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
 	defer terraform.Destroy(t, terraformOptions)
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
-	terraform.InitAndApply(t, terraformOptions)
+	terraform.Apply(t, terraformOptions)
+}
 
-	// Run `terraform output` to get the value of an output variable
-	id := terraform.Output(t, terraformOptions, "id")
-	example := terraform.Output(t, terraformOptions, "example")
-	random := terraform.Output(t, terraformOptions, "random")
+func testExamplesCompleteNonCA(t *testing.T) {
+	t.Parallel()
 
-	// Verify we're getting back the outputs we expect
-	// Ensure we get a random number appended
-	assert.Equal(t, exampleInput+" "+random, example)
-	// Ensure we get the attribute included in the ID
-	assert.Equal(t, "eg-ue2-test-example-"+randID, id)
+	rand.Seed(time.Now().UnixNano())
 
-	// ************************************************************************
-	// This steps below are unusual, not generally part of the testing
-	// but included here as an example of testing this specific module.
-	// This module has a random number that is supposed to change
-	// only when the example changes. So we run it again to ensure
-	// it does not change.
+	attributes := []string{strconv.Itoa(rand.Intn(100000))}
 
-	// This will run `terraform apply` a second time and fail the test if there are any errors
+	terraformOptions := &terraform.Options{
+		// The path to where our Terraform code is located
+		TerraformDir: "../../examples/complete",
+		Upgrade:      true,
+		EnvVars: map[string]string{
+			"TF_CLI_ARGS": "-state=terraform-non-ca-test.tfstate",
+		},
+		// Variables to pass to our Terraform code using -var-file options
+		VarFiles: []string{"fixtures.us-east-1.tfvars"},
+		Vars: map[string]interface{}{
+			"attributes": attributes,
+		},
+	}
+
+	// At the end of the test, run `terraform destroy` to clean up any resources that were created
+	defer terraform.Destroy(t, terraformOptions)
+
+	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.Apply(t, terraformOptions)
 
-	id2 := terraform.Output(t, terraformOptions, "id")
-	example2 := terraform.Output(t, terraformOptions, "example")
-	random2 := terraform.Output(t, terraformOptions, "random")
+	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
+	assert.Equal(t, certificatePEMPath, "/self-signed-cert.pem")
 
-	assert.Equal(t, id, id2, "Expected `id` to be stable")
-	assert.Equal(t, example, example2, "Expected `example` to be stable")
-	assert.Equal(t, random, random2, "Expected `random` to be stable")
+	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
+	assert.Equal(t, certificateKeyPath, "/self-signed-cert.key")
+}
 
-	// Then we run change the example and run it a third time and
-	// verify that the random number changed
-	newExample := "Goodbye"
-	terraformOptions.Vars["example"] = newExample
+func testExamplesCompleteCA(t *testing.T) {
+	t.Parallel()
+
+	rand.Seed(time.Now().UnixNano() + 1) // give a slightly different seed than the other parallel test
+
+	attributes := []string{strconv.Itoa(rand.Intn(100000))}
+
+	terraformOptions := &terraform.Options{
+		// The path to where our Terraform code is located
+		TerraformDir: "../../examples/complete",
+		Upgrade:      true,
+		EnvVars: map[string]string{
+			"TF_CLI_ARGS": "-state=terraform-ca-test.tfstate",
+		},
+		// Variables to pass to our Terraform code using -var-file options
+		VarFiles: []string{"ca.us-east-1.tfvars"},
+		Vars: map[string]interface{}{
+			"attributes": attributes,
+		},
+	}
+
+	// At the end of the test, run `terraform destroy` to clean up any resources that were created
+	defer terraform.Destroy(t, terraformOptions)
+
+	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.Apply(t, terraformOptions)
 
-	example3 := terraform.Output(t, terraformOptions, "example")
-	random3 := terraform.Output(t, terraformOptions, "random")
+	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
+	assert.Equal(t, certificatePEMPath, "/self-signed-cert-ca.pem")
 
-	assert.NotEqual(t, random, random3, "Expected `random` to change when `example` changed")
-	assert.Equal(t, newExample+" "+random3, example3, "Expected `example` to use new random number")
-
+	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
+	assert.Equal(t, certificateKeyPath, "/self-signed-cert-ca.key")
 }

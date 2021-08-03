@@ -5,7 +5,7 @@
 #
 
 # Name of this project
-name: terraform-aws-self-signed-cert
+name: terraform-aws-ssm-tls-self-signed-cert
 
 # Logo for this project
 #logo: docs/logo.png
@@ -20,13 +20,13 @@ copyrights:
     year: "2020"
 
 # Canonical GitHub repo
-github_repo: cloudposse/terraform-aws-self-signed-cert
+github_repo: cloudposse/terraform-aws-ssm-tls-self-signed-cert
 
 # Badges to display
 badges:
   - name: "Latest Release"
-    image: "https://img.shields.io/github/release/cloudposse/terraform-aws-self-signed-cert.svg"
-    url: "https://github.com/cloudposse/terraform-aws-self-signed-cert/releases/latest"
+    image: "https://img.shields.io/github/release/cloudposse/terraform-aws-ssm-tls-self-signed-cert.svg"
+    url: "https://github.com/cloudposse/terraform-aws-ssm-tls-self-signed-cert/releases/latest"
   - name: "Slack Community"
     image: "https://slack.cloudposse.com/badge.svg"
     url: "https://slack.cloudposse.com"
@@ -57,7 +57,7 @@ references:
 
 # Short description of this project
 description: |-
-  This `terraform-aws-self-signed-cert` module creates a self-signed certificate and writes it to SSM Parameter Store or AWS Secrets Manager.
+  This module creates a self-signed certificate and writes it alongside with its key to SSM Parameter Store (or alternatively AWS Secrets Manager).
 
 # Introduction to the project
 #introduction: |-
@@ -67,17 +67,45 @@ description: |-
 usage: |-
   For a complete example, see [examples/complete](examples/complete).
 
-  For automated tests of the complete example using [bats](https://github.com/bats-core/bats-core) and [Terratest](https://github.com/gruntwork-io/terratest)
-  (which tests and deploys the example on AWS), see [test](test).
-
   ```hcl
-  TODO
+  module "self_signed_cert" {
+    source = "cloudposse/ssm-tls-self-signed-cert/aws"
+    # Cloud Posse recommends pinning every module to a specific version
+    # version = "x.x.x"
+
+    namespace = "eg"
+    stage     = "dev"
+    name      = "self-signed-cert"
+
+    subject = {
+      common_name         = "example"
+      organization        = "Cloud Posse"
+      organizational_unit = "Engineering"
+    }
+
+    validity = {
+      duration_hours      = 730
+      early_renewal_hours = 24
+    }
+
+    allowed_uses = [
+      "key_encipherment",
+      "digital_signature",
+      "server_auth"
+    ]
+
+    subject_alt_names = {
+      ip_addresses = ["10.10.10.10"]
+      dns_names    = ["example.com"]
+      uris         = ["https://example.com"]
+    }
+  }
   ```
 
 # Example usage
 examples: |-
   Here is an example of using this module:
-  - [`examples/complete`](https://github.com/cloudposse/terraform-aws-self-signed-cert/) - complete example of using this module
+  - [`examples/complete`](examples/complete) - complete example of using this module.
 
 # How to get started quickly
 #quickstart: |-
