@@ -5,6 +5,8 @@ locals {
   secrets_store_kms_key_id = try(length(var.secrets_store_kms_key_id), 0) > 0 ? var.secrets_store_kms_key_id : null
   ssm_enabled              = local.secrets_store_enabled && var.secrets_store_type == "SSM"
   asm_enabled              = local.secrets_store_enabled && var.secrets_store_type == "ASM"
+  tls_certificate          = join("", tls_self_signed_cert.default.*.cert_pem)
+  tls_key                  = coalesce(join("", tls_private_key.default.*.private_key_pem), var.private_key_contents)
 }
 
 resource "tls_private_key" "default" {

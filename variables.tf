@@ -161,6 +161,12 @@ variable "secret_path_format" {
   }
 }
 
+variable "secrets_store_base64_enabled" {
+  description = "Enable or disable base64 encoding of secrets before writing them to the secrets store."
+  type        = bool
+  default     = false
+}
+
 variable "secrets_store_enabled" {
   description = "Enable or disable writing to the secrets store."
   type        = bool

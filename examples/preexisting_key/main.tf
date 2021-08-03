@@ -19,5 +19,7 @@ module "self_signed_cert" {
   private_key_contents  = var.private_key_contents
   private_key_algorithm = var.private_key_algorithm
 
+  secrets_store_base64_enabled = var.secrets_store_base64_enabled
+
   context = module.this.context
 }

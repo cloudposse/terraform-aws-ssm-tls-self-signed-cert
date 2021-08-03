@@ -12,7 +12,7 @@ resource "aws_secretsmanager_secret_version" "pem" {
   count = local.asm_enabled ? 1 : 0
 
   secret_id     = join("", aws_secretsmanager_secret.pem.*.name)
-  secret_string = join("", tls_self_signed_cert.default.*.cert_pem)
+  secret_string = var.secrets_store_base64_enabled ? base64encode(local.tls_certificate) : local.tls_certificate
 }
 
 resource "aws_secretsmanager_secret" "private_key" {
@@ -29,5 +29,5 @@ resource "aws_secretsmanager_secret_version" "private_key" {
   count = local.asm_enabled ? 1 : 0
 
   secret_id     = join("", aws_secretsmanager_secret.private_key.*.name)
-  secret_string = coalesce(join("", tls_private_key.default.*.private_key_pem), var.private_key_contents)
+  secret_string = var.secrets_store_base64_enabled ? base64encode(local.tls_key) : local.tls_key
 }
