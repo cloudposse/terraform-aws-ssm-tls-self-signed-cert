@@ -148,11 +148,11 @@ variable "secret_extensions" {
 
   Please refer to `var.secret_path_format` for information on how secret paths are computed.
   EOT
-  type        = object({
+  type = object({
     certificate = string
     private_key = string
   })
-  default     = {
+  default = {
     certificate = "pem"
     private_key = "key"
   }

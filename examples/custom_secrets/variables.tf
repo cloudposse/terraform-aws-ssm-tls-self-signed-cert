@@ -11,11 +11,11 @@ variable "create_cmk" {
 
 variable "secret_extensions" {
   description = "The extensions use when writing secrets to the secret store."
-  type        = object({
+  type = object({
     certificate = string
     private_key = string
   })
-  default     = {
+  default = {
     certificate = "pem"
     private_key = "key"
   }
