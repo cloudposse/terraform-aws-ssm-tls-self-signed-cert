@@ -78,10 +78,10 @@ func testExamplesCompleteNonCA(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 
 	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
-	assert.Equal(t, certificatePEMPath, "/self-signed-cert.pem")
+	assert.Equal(t, "/self-signed-cert.pem", certificatePEMPath)
 
 	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
-	assert.Equal(t, certificateKeyPath, "/self-signed-cert.key")
+	assert.Equal(t, "/self-signed-cert.key", certificateKeyPath)
 }
 
 func testExamplesCompleteCA(t *testing.T) {
@@ -112,8 +112,8 @@ func testExamplesCompleteCA(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 
 	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
-	assert.Equal(t, certificatePEMPath, "/self-signed-cert-ca.pem")
+	assert.Equal(t, "/self-signed-cert-ca.pem", certificatePEMPath)
 
 	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
-	assert.Equal(t, certificateKeyPath, "/self-signed-cert-ca.key")
+	assert.Equal(t, "/self-signed-cert-ca.key", certificateKeyPath)
 }

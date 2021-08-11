@@ -9,6 +9,18 @@ variable "create_cmk" {
   default     = false
 }
 
+variable "secret_extensions" {
+  description = "The extensions use when writing secrets to the secret store."
+  type = object({
+    certificate = string
+    private_key = string
+  })
+  default = {
+    certificate = "pem"
+    private_key = "key"
+  }
+}
+
 variable "secret_path_format" {
   description = "The custom secret path to use."
   type        = string

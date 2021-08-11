@@ -29,6 +29,7 @@ module "self_signed_cert" {
     "server_auth"
   ]
 
+  secret_extensions     = var.secret_extensions
   secret_path_format    = var.secret_path_format
   secrets_store_type    = var.secrets_store_type
   secrets_store_enabled = var.secrets_store_enabled

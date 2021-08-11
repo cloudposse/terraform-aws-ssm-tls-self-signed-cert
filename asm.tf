@@ -1,24 +1,24 @@
-resource "aws_secretsmanager_secret" "pem" {
+resource "aws_secretsmanager_secret" "certificate" {
   count = local.asm_enabled ? 1 : 0
 
-  name                    = format(var.secret_path_format, module.this.name, "pem")
+  name                    = format(var.secret_path_format, module.this.name, var.secret_extensions.certificate)
   recovery_window_in_days = var.asm_recovery_window_in_days
   kms_key_id              = local.secrets_store_kms_key_id
 
   tags = module.this.tags
 }
 
-resource "aws_secretsmanager_secret_version" "pem" {
+resource "aws_secretsmanager_secret_version" "certificate" {
   count = local.asm_enabled ? 1 : 0
 
-  secret_id     = join("", aws_secretsmanager_secret.pem.*.name)
+  secret_id     = join("", aws_secretsmanager_secret.certificate.*.name)
   secret_string = var.secrets_store_base64_enabled ? base64encode(local.tls_certificate) : local.tls_certificate
 }
 
 resource "aws_secretsmanager_secret" "private_key" {
   count = local.asm_enabled ? 1 : 0
 
-  name                    = format(var.secret_path_format, module.this.name, "key")
+  name                    = format(var.secret_path_format, module.this.name, var.secret_extensions.private_key)
   recovery_window_in_days = var.asm_recovery_window_in_days
   kms_key_id              = local.secrets_store_kms_key_id
 

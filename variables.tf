@@ -21,17 +21,6 @@ variable "basic_constraints" {
   }
 }
 
-variable "private_key_contents" {
-  description = <<-EOT
-  The contents of the private key to use for the certificate.
-  If supplied, this module will not create a private key and use these contents instead for the private key.
-
-  Defaults to `null`, which means a private key will be created.
-  EOT
-  type        = string
-  default     = null
-}
-
 variable "private_key_algorithm" {
   description = <<-EOT
   The name of the algorithm for the private key of the certificate. Currently only RSA and ECDSA are supported.
@@ -46,6 +35,17 @@ variable "private_key_algorithm" {
     condition     = contains(["RSA", "ECDSA"], var.private_key_algorithm)
     error_message = "Algorithm must be one of: RSA, ECDSA."
   }
+}
+
+variable "private_key_contents" {
+  description = <<-EOT
+  The contents of the private key to use for the certificate.
+  If supplied, this module will not create a private key and use these contents instead for the private key.
+
+  Defaults to `null`, which means a private key will be created.
+  EOT
+  type        = string
+  default     = null
 }
 
 variable "private_key_rsa_bits" {
@@ -142,13 +142,31 @@ variable "asm_recovery_window_in_days" {
   default     = 30
 }
 
+variable "secret_extensions" {
+  description = <<-EOT
+  The extensions use when writing secrets to the secret store.
+
+  Please refer to `var.secret_path_format` for information on how secret paths are computed.
+  EOT
+  type = object({
+    certificate = string
+    private_key = string
+  })
+  default = {
+    certificate = "pem"
+    private_key = "key"
+  }
+}
+
 variable "secret_path_format" {
   description = <<-EOT
   The path format to use when writing secrets to the secret store.
 
-  The secret path will be computed as `format(var.secret_path_format, var.name, <secret extension>)`.
-  Thus by default, if `var.name`=`example-self-signed-cert`, then the resulting secret path for the self-signed certificate's
-  PEM file will be `/example-self-signed-cert.pem`.
+  The certificate secret path will be computed as `format(var.secret_path_format, var.name, var.secret_extensions.certificate)`
+  and the private key path as `format(var.secret_path_format, var.name, var.secret_extensions.private_key)`.
+
+  Thus by default, if `var.name`=`example-self-signed-cert`, then the resulting secret paths for the self-signed certificate's
+  PEM file and private key will be `/example-self-signed-cert.pem` and `/example-self-signed-cert.key`, respectively.
 
   This variable can be overridden in order to create more specific secret store paths.
   EOT

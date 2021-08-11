@@ -83,7 +83,7 @@ func testExamplesPreexistingKeyRSA(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, certificateKey, string(privateKeyPEM))
+	assert.Equal(t, string(privateKeyPEM), certificateKey)
 }
 
 func testExamplesPreexistingKeyRSABase64(t *testing.T) {
@@ -134,7 +134,7 @@ func testExamplesPreexistingKeyRSABase64(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, certificateKey, base64.StdEncoding.EncodeToString(privateKeyPEM))
+	assert.Equal(t, base64.StdEncoding.EncodeToString(privateKeyPEM), certificateKey)
 }
 
 func testExamplesPreexistingKeyECDSA(t *testing.T) {
@@ -187,7 +187,7 @@ func testExamplesPreexistingKeyECDSA(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, certificateKey, string(privateKeyPEM))
+	assert.Equal(t, string(privateKeyPEM), certificateKey)
 }
 
 func getSSMParameterValue(awsRegion string, parameterName string) (string, error) {

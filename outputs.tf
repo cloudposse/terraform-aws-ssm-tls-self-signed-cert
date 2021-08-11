@@ -5,7 +5,7 @@ output "certificate_key_path" {
 
 output "certificate_pem_path" {
   description = "Secrets store path containing the certificate PEM file."
-  value       = local.secrets_store_enabled ? coalesce(join("", aws_ssm_parameter.pem.*.name), join("", aws_secretsmanager_secret.pem.*.name)) : null
+  value       = local.secrets_store_enabled ? coalesce(join("", aws_ssm_parameter.certificate.*.name), join("", aws_secretsmanager_secret.certificate.*.name)) : null
 }
 
 output "certificate_pem" {
