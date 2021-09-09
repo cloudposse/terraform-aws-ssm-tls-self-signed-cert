@@ -4,6 +4,7 @@ locals {
   secrets_store_enabled    = local.enabled && var.secrets_store_enabled
   secrets_store_kms_key_id = try(length(var.secrets_store_kms_key_id), 0) > 0 ? var.secrets_store_kms_key_id : null
   ssm_enabled              = local.secrets_store_enabled && var.secrets_store_type == "SSM"
+  acm_enabled              = local.secrets_store_enabled && var.secrets_store_type == "ACM"
   asm_enabled              = local.secrets_store_enabled && var.secrets_store_type == "ASM"
   tls_certificate          = try(tls_self_signed_cert.default[0].cert_pem, null)
   tls_key                  = try(tls_private_key.default[0].private_key_pem, var.private_key_contents)

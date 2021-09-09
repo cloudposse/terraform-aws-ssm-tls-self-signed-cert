@@ -205,14 +205,24 @@ variable "secrets_store_kms_key_id" {
 variable "secrets_store_type" {
   description = <<-EOT
   The secret store type to use when writing secrets related to the self-signed certificate.
-  The value specified can either be `SSM` (AWS Systems Manager Parameter Store) or `ASM` (AWS Secrets Manager).
+  The value specified can either be `SSM` (AWS Systems Manager Parameter Store), `ASM` (AWS Secrets Manager), 
+  or `ACM` (AWS Certificate Manager).
 
   Defaults to `SSM`.
   EOT
   type        = string
   default     = "SSM"
   validation {
-    condition     = contains(["SSM", "ASM"], var.secrets_store_type)
-    error_message = "Secrets store type one be one of: SSM, ASM."
+    condition     = contains(["SSM", "ASM", "ACM"], var.secrets_store_type)
+    error_message = "Secrets store type one be one of: SSM, ASM, ACM."
   }
+}
+
+variable "certificate_chain" {
+  description = <<-EOT
+  When using ACM as a secret store, some certificates store a certificate chain from a CA. This CA will come from another resource.
+  EOT
+
+  type    = string
+  default = null
 }
