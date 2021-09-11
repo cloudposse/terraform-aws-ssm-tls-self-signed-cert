@@ -27,7 +27,9 @@ module "self_signed_cert_ca" {
     uris         = null
   }
 
-  basic_constraints = var.basic_constraints
+  certificate_backends = var.certificate_backends
+
+  basic_constraints = var.ca_basic_constraints
 
   context = module.this.context
 }
@@ -57,8 +59,6 @@ module "self_signed_cert_server" {
     dns_names    = ["example.com"]
     uris         = ["https://example.com"]
   }
-
-  basic_constraints = var.basic_constraints
 
   certificate_chain = module.self_signed_cert_ca.certificate_pem
 
