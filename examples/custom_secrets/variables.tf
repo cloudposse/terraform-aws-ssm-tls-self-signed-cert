@@ -32,8 +32,14 @@ variable "secrets_store_enabled" {
   default     = true
 }
 
-variable "secrets_store_type" {
-  description = "The secrets store type to use, `SSM` or `ASM`."
-  type        = string
-  default     = "SSM"
+variable "certificate_backends" {
+  description = <<-EOT
+  The certificate backend to use when writing secrets related to the self-signed certificate.
+  The value specified can either be `SSM` (AWS Systems Manager Parameter Store), `ASM` (AWS Secrets Manager), 
+  and/or `ACM` (AWS Certificate Manager).
+
+  Defaults to `SSM`.
+  EOT
+  type        = list(string)
+  default     = ["SSM"]
 }

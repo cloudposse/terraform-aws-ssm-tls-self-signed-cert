@@ -12,4 +12,4 @@ secret_path_format = "/ssm-test/%s.%s"
 
 secrets_store_enabled = false
 
-secrets_store_type = "SSM"
+certificate_backends = [ "SSM" ]
