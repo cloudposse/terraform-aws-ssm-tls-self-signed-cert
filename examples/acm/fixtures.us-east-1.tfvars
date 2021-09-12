@@ -8,7 +8,9 @@ stage = "test"
 
 name = "self-signed-cert"
 
-certificate_backends = [ "ACM" ]
+certificate_backends_enabled = true
+
+certificate_backends = ["ACM"]
 
 ca_basic_constraints = {
   ca = true

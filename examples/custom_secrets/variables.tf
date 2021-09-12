@@ -26,7 +26,7 @@ variable "secret_path_format" {
   type        = string
 }
 
-variable "secrets_store_enabled" {
+variable "certificate_backends_enabled" {
   description = "Whether or not to write to the secrets store."
   type        = bool
   default     = true

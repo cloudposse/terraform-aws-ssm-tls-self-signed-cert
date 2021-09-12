@@ -19,7 +19,7 @@ module "self_signed_cert_ca" {
   allowed_uses = [
     "crl_signing",
     "cert_signing",
-  ] 
+  ]
 
   subject_alt_names = {
     ip_addresses = null

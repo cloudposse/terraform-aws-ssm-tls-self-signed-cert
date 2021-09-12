@@ -10,6 +10,6 @@ name = "self-signed-cert-ssm-disabled"
 
 secret_path_format = "/ssm-test/%s.%s"
 
-secrets_store_enabled = false
+certificate_backends_enabled = false
 
 certificate_backends = [ "SSM" ]

@@ -15,5 +15,5 @@ output "certificate_pem" {
 
 output "certificate_arn" {
   description = "ARN of certificate stored in ACM that other services may need to refer to. This is useful when the certificate is stored in ACM."
-  value = join("", aws_acm_certificate.default.*.arn)
+  value       = join("", aws_acm_certificate.default.*.arn)
 }
