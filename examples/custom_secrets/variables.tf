@@ -40,6 +40,6 @@ variable "certificate_backends" {
 
   Defaults to `SSM`.
   EOT
-  type        = list(string)
+  type        = set(string)
   default     = ["SSM"]
 }

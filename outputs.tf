@@ -1,11 +1,11 @@
 output "certificate_key_path" {
   description = "Secrets store path containing the certificate private key file."
-  value       = local.secrets_store_enabled ? coalesce(join("", aws_ssm_parameter.private_key.*.name), join("", aws_secretsmanager_secret.private_key.*.name)) : null
+  value       = local.asm_enabled || local.ssm_enabled ? coalesce(join("", aws_ssm_parameter.private_key.*.name), join("", aws_secretsmanager_secret.private_key.*.name)) : null
 }
 
 output "certificate_pem_path" {
   description = "Secrets store path containing the certificate PEM file."
-  value       = local.secrets_store_enabled ? coalesce(join("", aws_ssm_parameter.certificate.*.name), join("", aws_secretsmanager_secret.certificate.*.name)) : null
+  value       = local.asm_enabled || local.ssm_enabled ? coalesce(join("", aws_ssm_parameter.certificate.*.name), join("", aws_secretsmanager_secret.certificate.*.name)) : null
 }
 
 output "certificate_pem" {

@@ -12,6 +12,6 @@ certificate_backends_enabled = true
 
 certificate_backends = ["ACM"]
 
-ca_basic_constraints = {
+basic_constraints = {
   ca = true
 }

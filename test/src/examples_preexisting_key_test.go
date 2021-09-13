@@ -115,11 +115,11 @@ func testExamplesPreexistingKeyRSABase64(t *testing.T) {
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-1.tfvars"},
 		Vars: map[string]interface{}{
-			"name":                         "self-signed-cert-existing-rsa-base64",
-			"attributes":                   attributes,
-			"private_key_contents":         string(privateKeyPEM),
-			"private_key_algorithm":        "RSA",
-			"secrets_store_base64_enabled": true,
+			"name":                                "self-signed-cert-existing-rsa-base64",
+			"attributes":                          attributes,
+			"private_key_contents":                string(privateKeyPEM),
+			"private_key_algorithm":               "RSA",
+			"certificate_backends_base64_enabled": true,
 		},
 	}
 

@@ -17,3 +17,19 @@ variable "basic_constraints" {
     ca = false
   }
 }
+
+variable "certificate_backends_enabled" {
+  description = "Enable or disable writing to the secrets store."
+  type        = bool
+}
+
+variable "certificate_backends" {
+  description = <<-EOT
+  The certificate backend to use when writing secrets related to the self-signed certificate.
+  The value specified can either be `SSM` (AWS Systems Manager Parameter Store), `ASM` (AWS Secrets Manager), 
+  and/or `ACM` (AWS Certificate Manager).
+
+  Defaults to `SSM`.
+  EOT
+  type        = set(string)
+}

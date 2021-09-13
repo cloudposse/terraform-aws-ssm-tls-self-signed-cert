@@ -27,9 +27,10 @@ module "self_signed_cert_ca" {
     uris         = null
   }
 
+  certificate_backends_enabled = var.certificate_backends_enabled
   certificate_backends = var.certificate_backends
 
-  basic_constraints = var.ca_basic_constraints
+  basic_constraints = var.basic_constraints
 
   context = module.this.context
 }
@@ -61,6 +62,9 @@ module "self_signed_cert_server" {
   }
 
   certificate_chain = module.self_signed_cert_ca.certificate_pem
+
+  certificate_backends_enabled = var.certificate_backends_enabled
+  certificate_backends = var.certificate_backends
 
   context = module.this.context
 }

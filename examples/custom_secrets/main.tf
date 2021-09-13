@@ -31,12 +31,12 @@ module "self_signed_cert" {
 
   secret_extensions     = var.secret_extensions
   secret_path_format    = var.secret_path_format
-  secrets_store_type    = var.secrets_store_type
-  secrets_store_enabled = var.secrets_store_enabled
+  certificate_backends  = var.certificate_backends
+  certificate_backends_enabled = var.certificate_backends_enabled
 
   asm_recovery_window_in_days = 0 // otherwise Terratest won't be able to force destroy ASM secrets
 
-  secrets_store_kms_key_id = var.create_cmk ? join("", aws_kms_alias.cmk.*.name) : null
+  certificate_backend_kms_key_id = var.create_cmk ? join("", aws_kms_alias.cmk.*.name) : null
 
   context = module.this.context
 }

@@ -179,13 +179,13 @@ variable "secret_path_format" {
   }
 }
 
-variable "certificate_backend_base64_enabled" {
+variable "certificate_backends_base64_enabled" {
   description = "Enable or disable base64 encoding of secrets before writing them to the secrets store."
   type        = bool
   default     = false
 }
 
-variable "certificate_backend_enabled" {
+variable "certificate_backends_enabled" {
   description = "Enable or disable writing to the secrets store."
   type        = bool
   default     = true
@@ -195,7 +195,7 @@ variable "certificate_backend_kms_key_id" {
   description = <<-EOT
   The KMD Key ID (ARN or ID) to use when encrypting either the AWS SSM Parameters or AWS Secrets Manager Secrets relating to the certificate.
 
-  If not specified, the Amazon-managed Key `alias/aws/ssm` will be used if `var.secrets_store_type` is `SSM`,
+  If not specified, the Amazon-managed Key `alias/aws/ssm` will be used if `var.certificate_backends` contains `SSM`,
   and `alias/aws/secretsmanager` will be used if `var.certificate_backends` is `ASM`.
   EOT
   type        = string
@@ -210,10 +210,10 @@ variable "certificate_backends" {
 
   Defaults to `SSM`.
   EOT
-  type        = list(string)
+  type        = set(string)
   default     = ["SSM"]
   validation {
-    condition     = contains(["SSM", "ASM", "ACM"], var.certificate_backends)
+    condition     = length(setintersection(["SSM", "ASM", "ACM"], var.certificate_backends)) > 0
     error_message = "Certificate backend must be one be one of: SSM, ASM, ACM."
   }
 }
