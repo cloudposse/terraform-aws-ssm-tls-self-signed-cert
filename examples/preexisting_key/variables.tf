@@ -13,7 +13,7 @@ variable "private_key_algorithm" {
   type        = string
 }
 
-variable "secrets_store_base64_enabled" {
+variable "certificate_backends_base64_enabled" {
   description = "Enable or disable base64 encoding of secrets before writing them to the secrets store."
   type        = bool
   default     = false

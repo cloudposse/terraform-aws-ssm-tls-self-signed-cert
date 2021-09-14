@@ -3,33 +3,24 @@ variable "region" {
   type        = string
 }
 
-variable "create_cmk" {
-  description = "Whether or not to create a CMK and use it for the secret."
-  type        = bool
-  default     = false
-}
+variable "basic_constraints" {
+  description = <<-EOT
+  The [basic constraints](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.9) of the issued certificate.
+  Currently, only the `CA` constraint (which identifies whether the subject of the certificate is a CA) can be set.
 
-variable "secret_extensions" {
-  description = "The extensions use when writing secrets to the secret store."
+  Defaults to this certificate not being a CA.
+  EOT
   type = object({
-    certificate = string
-    private_key = string
+    ca = bool
   })
   default = {
-    certificate = "pem"
-    private_key = "key"
+    ca = false
   }
 }
 
-variable "secret_path_format" {
-  description = "The custom secret path to use."
-  type        = string
-}
-
 variable "certificate_backends_enabled" {
-  description = "Whether or not to write to the secrets store."
+  description = "Enable or disable writing to the secrets store."
   type        = bool
-  default     = true
 }
 
 variable "certificate_backends" {
@@ -41,5 +32,4 @@ variable "certificate_backends" {
   Defaults to `SSM`.
   EOT
   type        = set(string)
-  default     = ["SSM"]
 }

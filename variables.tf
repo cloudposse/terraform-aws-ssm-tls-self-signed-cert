@@ -130,13 +130,13 @@ variable "subject_alt_names" {
   }
 }
 
-// Secrets Store Variables
+// Certificate Backend Variables
 
 variable "asm_recovery_window_in_days" {
   description = <<-EOT
   Number of days that AWS Secrets Manager waits before it can delete the secret. This value can be `0` to force deletion without recovery or range from `7` to `30` days.
 
-  This value is ignored if `var.secrets_store_type` is not `ASM`, or if `var.secrets_store_enabled` is `false`.
+  This value is ignored if `var.certificate_backends` is not `ASM`, or if `var.certificate_backend_enabled` is `false`.
   EOT
   type        = number
   default     = 30
@@ -144,7 +144,7 @@ variable "asm_recovery_window_in_days" {
 
 variable "secret_extensions" {
   description = <<-EOT
-  The extensions use when writing secrets to the secret store.
+  The extensions use when writing secrets to the certificate backend.
 
   Please refer to `var.secret_path_format` for information on how secret paths are computed.
   EOT
@@ -160,7 +160,7 @@ variable "secret_extensions" {
 
 variable "secret_path_format" {
   description = <<-EOT
-  The path format to use when writing secrets to the secret store.
+  The path format to use when writing secrets to the certificate backend.
 
   The certificate secret path will be computed as `format(var.secret_path_format, var.name, var.secret_extensions.certificate)`
   and the private key path as `format(var.secret_path_format, var.name, var.secret_extensions.private_key)`.
@@ -168,7 +168,7 @@ variable "secret_path_format" {
   Thus by default, if `var.name`=`example-self-signed-cert`, then the resulting secret paths for the self-signed certificate's
   PEM file and private key will be `/example-self-signed-cert.pem` and `/example-self-signed-cert.key`, respectively.
 
-  This variable can be overridden in order to create more specific secret store paths.
+  This variable can be overridden in order to create more specific certificate backend paths.
   EOT
   type        = string
   default     = "/%s.%s"
@@ -179,40 +179,50 @@ variable "secret_path_format" {
   }
 }
 
-variable "secrets_store_base64_enabled" {
+variable "certificate_backends_base64_enabled" {
   description = "Enable or disable base64 encoding of secrets before writing them to the secrets store."
   type        = bool
   default     = false
 }
 
-variable "secrets_store_enabled" {
+variable "certificate_backends_enabled" {
   description = "Enable or disable writing to the secrets store."
   type        = bool
   default     = true
 }
 
-variable "secrets_store_kms_key_id" {
+variable "certificate_backend_kms_key_id" {
   description = <<-EOT
   The KMD Key ID (ARN or ID) to use when encrypting either the AWS SSM Parameters or AWS Secrets Manager Secrets relating to the certificate.
 
-  If not specified, the Amazon-managed Key `alias/aws/ssm` will be used if `var.secrets_store_type` is `SSM`,
-  and `alias/aws/secretsmanager` will be used if `var.secrets_store_type` is `ASM`.
+  If not specified, the Amazon-managed Key `alias/aws/ssm` will be used if `var.certificate_backends` contains `SSM`,
+  and `alias/aws/secretsmanager` will be used if `var.certificate_backends` is `ASM`.
   EOT
   type        = string
   default     = null
 }
 
-variable "secrets_store_type" {
+variable "certificate_backends" {
   description = <<-EOT
-  The secret store type to use when writing secrets related to the self-signed certificate.
-  The value specified can either be `SSM` (AWS Systems Manager Parameter Store) or `ASM` (AWS Secrets Manager).
+  The certificate backend to use when writing secrets related to the self-signed certificate.
+  The value specified can either be `SSM` (AWS Systems Manager Parameter Store), `ASM` (AWS Secrets Manager), 
+  and/or `ACM` (AWS Certificate Manager).
 
   Defaults to `SSM`.
   EOT
-  type        = string
-  default     = "SSM"
+  type        = set(string)
+  default     = ["SSM"]
   validation {
-    condition     = contains(["SSM", "ASM"], var.secrets_store_type)
-    error_message = "Secrets store type one be one of: SSM, ASM."
+    condition     = length(setintersection(["SSM", "ASM", "ACM"], var.certificate_backends)) > 0
+    error_message = "Certificate backend must be one be one of: SSM, ASM, ACM."
   }
+}
+
+variable "certificate_chain" {
+  description = <<-EOT
+  When using ACM as a certificate backend, some certificates store a certificate chain from a CA. This CA will come from another resource.
+  EOT
+
+  type    = string
+  default = null
 }

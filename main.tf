@@ -1,12 +1,13 @@
 locals {
-  enabled                  = module.this.enabled
-  create_private_key       = local.enabled && try(length(var.private_key_contents), 0) == 0
-  secrets_store_enabled    = local.enabled && var.secrets_store_enabled
-  secrets_store_kms_key_id = try(length(var.secrets_store_kms_key_id), 0) > 0 ? var.secrets_store_kms_key_id : null
-  ssm_enabled              = local.secrets_store_enabled && var.secrets_store_type == "SSM"
-  asm_enabled              = local.secrets_store_enabled && var.secrets_store_type == "ASM"
-  tls_certificate          = try(tls_self_signed_cert.default[0].cert_pem, null)
-  tls_key                  = try(tls_private_key.default[0].private_key_pem, var.private_key_contents)
+  enabled                        = module.this.enabled
+  create_private_key             = local.enabled && try(length(var.private_key_contents), 0) == 0
+  certificate_backends_enabled   = local.enabled && var.certificate_backends_enabled
+  certificate_backend_kms_key_id = try(length(var.certificate_backend_kms_key_id), 0) > 0 ? var.certificate_backend_kms_key_id : null
+  ssm_enabled                    = local.certificate_backends_enabled && contains(var.certificate_backends, "SSM")
+  acm_enabled                    = local.certificate_backends_enabled && contains(var.certificate_backends, "ACM")
+  asm_enabled                    = local.certificate_backends_enabled && contains(var.certificate_backends, "ASM")
+  tls_certificate                = try(tls_self_signed_cert.default[0].cert_pem, null)
+  tls_key                        = try(tls_private_key.default[0].private_key_pem, var.private_key_contents)
 }
 
 resource "tls_private_key" "default" {

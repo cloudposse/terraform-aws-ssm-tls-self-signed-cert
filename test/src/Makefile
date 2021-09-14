@@ -16,6 +16,7 @@ init:
 ## Run tests
 test: init
 	go mod download
+	go test -v -timeout 60m -run TestExamplesAcm
 	go test -v -timeout 60m -run TestExamplesComplete
 	go test -v -timeout 60m -run TestExamplesCustomSecrets
 	go test -v -timeout 60m -run TestExamplesPreexistingKey
