@@ -10,4 +10,4 @@ name = "self-signed-cert-asm"
 
 secret_path_format = "/test-asm/%s.%s"
 
-certificate_backends = [ "ASM" ]
+certificate_backends = ["ASM"]

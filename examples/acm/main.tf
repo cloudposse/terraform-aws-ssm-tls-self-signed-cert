@@ -28,7 +28,7 @@ module "self_signed_cert_ca" {
   }
 
   certificate_backends_enabled = var.certificate_backends_enabled
-  certificate_backends = var.certificate_backends
+  certificate_backends         = var.certificate_backends
 
   basic_constraints = var.basic_constraints
 
@@ -64,7 +64,7 @@ module "self_signed_cert_server" {
   certificate_chain = module.self_signed_cert_ca.certificate_pem
 
   certificate_backends_enabled = var.certificate_backends_enabled
-  certificate_backends = var.certificate_backends
+  certificate_backends         = var.certificate_backends
 
   context = module.this.context
 }

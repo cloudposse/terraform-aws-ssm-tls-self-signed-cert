@@ -10,6 +10,6 @@ name = "self-signed-cert-cmk"
 
 secret_path_format = "/test-cmk/%s.%s"
 
-certificate_backends = [ "SSM" ]
+certificate_backends = ["SSM"]
 
 create_cmk = true

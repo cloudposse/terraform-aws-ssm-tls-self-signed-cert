@@ -29,9 +29,9 @@ module "self_signed_cert" {
     "server_auth"
   ]
 
-  secret_extensions     = var.secret_extensions
-  secret_path_format    = var.secret_path_format
-  certificate_backends  = var.certificate_backends
+  secret_extensions            = var.secret_extensions
+  secret_path_format           = var.secret_path_format
+  certificate_backends         = var.certificate_backends
   certificate_backends_enabled = var.certificate_backends_enabled
 
   asm_recovery_window_in_days = 0 // otherwise Terratest won't be able to force destroy ASM secrets
