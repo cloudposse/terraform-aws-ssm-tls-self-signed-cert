@@ -10,7 +10,7 @@ output "certificate_pem_path" {
 
 output "certificate_pem" {
   description = "Contents of the certificate PEM."
-  value       = join("", tls_self_signed_cert.default.*.cert_pem)
+  value       = local.tls_certificate
 }
 
 output "certificate_arn" {
