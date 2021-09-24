@@ -17,3 +17,9 @@ output "certificate_arn" {
   description = "ARN of certificate stored in ACM that other services may need to refer to. This is useful when the certificate is stored in ACM."
   value       = join("", aws_acm_certificate.default.*.arn)
 }
+
+output "private_key_pem" {
+  description = "Contents of private key pem. This value is sensitive. It requires enabling the `show_private_key` flag."
+  value       = coalesce(join("", tls_private_key.default.*.private_key_pem), var.private_key_contents)
+  senstive    = true
+}

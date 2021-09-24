@@ -226,3 +226,9 @@ variable "certificate_chain" {
   type    = string
   default = null
 }
+
+variable "show_private_key" {
+  description = "Feature flag indicating to enable display of private key output. The private key is considered sensitive."
+  type        = bool
+  default     = false
+}
