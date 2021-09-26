@@ -10,7 +10,7 @@ name = "self-signed-cert"
 
 certificate_backends_enabled = true
 
-certificate_backends = ["ACM"]
+certificate_backends = ["SSM", "ACM"]
 
 basic_constraints = {
   ca = true
