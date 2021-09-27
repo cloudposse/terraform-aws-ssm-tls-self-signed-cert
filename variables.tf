@@ -223,6 +223,18 @@ variable "certificate_chain" {
   When using ACM as a certificate backend, some certificates store a certificate chain from a CA. This CA will come from another resource.
   EOT
 
-  type    = string
+  type = object({
+    cert_pem        = string
+    private_key_pem = string
+  })
   default = null
+}
+
+variable "use_locally_signed" {
+  description = <<-EOT
+  Create a locally signed certificate/key pair instead of a self-signed one. This is useful it a previously created certificate chain is to be used to sign a certificate.
+  EOT
+
+  type    = bool
+  default = false
 }
