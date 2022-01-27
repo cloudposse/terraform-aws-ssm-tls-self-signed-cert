@@ -78,10 +78,10 @@ func testExamplesCompleteNonCA(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 
 	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
-	assert.Equal(t, "/eg-ue1-test-self-signed-cert-" + attributes[0] + ".pem", certificatePEMPath)
+	assert.Equal(t, "/eg-ue1-test-self-signed-cert-"+attributes[0]+".pem", certificatePEMPath)
 
 	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
-	assert.Equal(t, "/eg-ue1-test-self-signed-cert-" + attributes[0] + ".key", certificateKeyPath)
+	assert.Equal(t, "/eg-ue1-test-self-signed-cert-"+attributes[0]+".key", certificateKeyPath)
 }
 
 func testExamplesCompleteCA(t *testing.T) {
@@ -112,8 +112,8 @@ func testExamplesCompleteCA(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 
 	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
-	assert.Equal(t, "/eg-ue1-test-self-signed-cert-ca-" + attributes[0] + ".pem", certificatePEMPath)
+	assert.Equal(t, "/eg-ue1-test-self-signed-cert-ca-"+attributes[0]+".pem", certificatePEMPath)
 
 	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
-	assert.Equal(t, "/eg-ue1-test-self-signed-cert-ca-" + attributes[0] + ".key", certificateKeyPath)
+	assert.Equal(t, "/eg-ue1-test-self-signed-cert-ca-"+attributes[0]+".key", certificateKeyPath)
 }
