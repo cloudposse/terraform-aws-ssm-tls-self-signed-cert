@@ -84,10 +84,10 @@ func testExamplesCustomSecretsSSM(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 
 	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
-	assert.Equal(t, "/test-ssm/eg-ue1-test-self-signed-cert-ssm"+attributes[0]+".pem", certificatePEMPath)
+	assert.Equal(t, "/test-ssm/eg-ue1-test-self-signed-cert-ssm-"+attributes[0]+".pem", certificatePEMPath)
 
 	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
-	assert.Equal(t, "/test-ssm/eg-ue1-test-self-signed-cert-ssm"+attributes[0]+".key", certificateKeyPath)
+	assert.Equal(t, "/test-ssm/eg-ue1-test-self-signed-cert-ssm-"+attributes[0]+".key", certificateKeyPath)
 }
 
 func testExamplesCustomSecretsASM(t *testing.T) {
@@ -118,10 +118,10 @@ func testExamplesCustomSecretsASM(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 
 	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
-	assert.Equal(t, "/test-asm/eg-ue1-test-self-signed-cert-asm"+attributes[0]+".pem", certificatePEMPath)
+	assert.Equal(t, "/test-asm/eg-ue1-test-self-signed-cert-asm-"+attributes[0]+".pem", certificatePEMPath)
 
 	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
-	assert.Equal(t, "/test-asm/eg-ue1-test-self-signed-cert-asm"+attributes[0]+".key", certificateKeyPath)
+	assert.Equal(t, "/test-asm/eg-ue1-test-self-signed-cert-asm-"+attributes[0]+".key", certificateKeyPath)
 }
 
 func testExamplesCustomSecretsCMK(t *testing.T) {
@@ -186,8 +186,8 @@ func testExamplesCustomSecretsSuffixes(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 
 	certificatePEMPath := terraform.Output(t, terraformOptions, "certificate_pem_path")
-	assert.Equal(t, "/eg-ue1-test-self-signed-cert-custom-suffixes"+attributes[0]+".crt", certificatePEMPath)
+	assert.Equal(t, "/eg-ue1-test-self-signed-cert-custom-suffixes-"+attributes[0]+".crt", certificatePEMPath)
 
 	certificateKeyPath := terraform.Output(t, terraformOptions, "certificate_key_path")
-	assert.Equal(t, "/eg-ue1-test-self-signed-cert-custom-suffixes"+attributes[0]+".key", certificateKeyPath)
+	assert.Equal(t, "/eg-ue1-test-self-signed-cert-custom-suffixes-"+attributes[0]+".key", certificateKeyPath)
 }
