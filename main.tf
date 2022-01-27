@@ -18,7 +18,6 @@ resource "tls_private_key" "default" {
   rsa_bits    = var.private_key_algorithm == "RSA" ? var.private_key_rsa_bits : null
 }
 
-
 resource "tls_cert_request" "default" {
   count = local.enabled && var.use_locally_signed ? 1 : 0
 

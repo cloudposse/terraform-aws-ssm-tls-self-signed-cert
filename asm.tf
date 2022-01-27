@@ -1,7 +1,7 @@
 resource "aws_secretsmanager_secret" "certificate" {
   count = local.asm_enabled ? 1 : 0
 
-  name                    = format(var.secret_path_format, module.this.name, var.secret_extensions.certificate)
+  name                    = format(var.secret_path_format, module.this.id, var.secret_extensions.certificate)
   recovery_window_in_days = var.asm_recovery_window_in_days
   kms_key_id              = local.certificate_backend_kms_key_id
 
@@ -18,7 +18,7 @@ resource "aws_secretsmanager_secret_version" "certificate" {
 resource "aws_secretsmanager_secret" "private_key" {
   count = local.asm_enabled ? 1 : 0
 
-  name                    = format(var.secret_path_format, module.this.name, var.secret_extensions.private_key)
+  name                    = format(var.secret_path_format, module.this.id, var.secret_extensions.private_key)
   recovery_window_in_days = var.asm_recovery_window_in_days
   kms_key_id              = local.certificate_backend_kms_key_id
 
