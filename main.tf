@@ -39,7 +39,7 @@ resource "tls_cert_request" "default" {
   dns_names    = var.subject_alt_names.dns_names
   ip_addresses = var.subject_alt_names.ip_addresses
   uris         = var.subject_alt_names.uris
-  
+
 }
 
 resource "tls_locally_signed_cert" "default" {
