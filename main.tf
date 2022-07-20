@@ -21,7 +21,6 @@ resource "tls_private_key" "default" {
 resource "tls_cert_request" "default" {
   count = local.enabled && var.use_locally_signed ? 1 : 0
 
-  key_algorithm   = var.private_key_algorithm
   private_key_pem = coalesce(join("", tls_private_key.default.*.private_key_pem), var.private_key_contents)
 
   subject {
