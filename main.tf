@@ -21,7 +21,6 @@ resource "tls_private_key" "default" {
 resource "tls_cert_request" "default" {
   count = local.enabled && var.use_locally_signed ? 1 : 0
 
-  key_algorithm   = var.private_key_algorithm
   private_key_pem = coalesce(join("", tls_private_key.default.*.private_key_pem), var.private_key_contents)
 
   subject {
@@ -43,7 +42,6 @@ resource "tls_locally_signed_cert" "default" {
   is_ca_certificate = var.basic_constraints.ca
 
   cert_request_pem   = join("", tls_cert_request.default.*.cert_request_pem)
-  ca_key_algorithm   = var.private_key_algorithm
   ca_private_key_pem = var.certificate_chain.private_key_pem
   ca_cert_pem        = var.certificate_chain.cert_pem
 
@@ -59,7 +57,6 @@ resource "tls_self_signed_cert" "default" {
 
   is_ca_certificate = var.basic_constraints.ca
 
-  key_algorithm   = var.private_key_algorithm
   private_key_pem = coalesce(join("", tls_private_key.default.*.private_key_pem), var.private_key_contents)
 
   validity_period_hours = var.validity.duration_hours
