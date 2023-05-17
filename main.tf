@@ -53,7 +53,7 @@ resource "tls_locally_signed_cert" "default" {
 }
 
 resource "tls_self_signed_cert" "default" {
-  count = local.enabled && ! var.use_locally_signed ? 1 : 0
+  count = local.enabled && !var.use_locally_signed ? 1 : 0
 
   is_ca_certificate = var.basic_constraints.ca
 
