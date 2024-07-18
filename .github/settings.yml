@@ -5,3 +5,4 @@ repository:
   description: This module creates a self-signed certificate and writes it alongside with its key to SSM Parameter Store (or alternatively AWS Secrets Manager).
   homepage: https://cloudposse.com/accelerate
   topics: terraform, hcl2, aws, terraform-modules, ssm, certificate, certificate-signing-request
+
